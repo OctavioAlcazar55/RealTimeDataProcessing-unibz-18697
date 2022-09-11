@@ -52,28 +52,20 @@ Check Wikipedia events are ingesting
 ----
 docker exec -it kafka-wiki kafka-run-class.sh kafka.tools.GetOffsetShell \
   --broker-list localhost:9092 \
-  --topic wiki_events
+  --topic stock_events
 ----
 
 [souce, bash]
 ----
 docker exec -it kafka-wiki kafka-console-consumer.sh \
   --bootstrap-server localhost:9092 \
-  --topic wiki_events \
+  --topic stock_events \
   --from-beginning
 ----
 
 Add Pinot Table
 
 [source, bash]
-----
-docker exec -it pinot-controller-wiki bin/pinot-admin.sh AddTable \
-  -tableConfigFile /config/table-stocks.json \
-  -schemaFile /config/schema-stocks.json \
-  -exec
-----
-
-
 ----
 docker exec -it pinot-controller-wiki bin/pinot-admin.sh AddTable \
   -tableConfigFile /config/table-stocks.json \
@@ -126,6 +118,5 @@ Update the apt package index, and install the latest version of Docker Engine, c
  sudo apt-get update
  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
  sudo apt install docker-compose
-
 
   sudo service docker start
