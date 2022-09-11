@@ -1,0 +1,25 @@
+{
+    "schemaName": "stocks",
+    "dimensionFieldSpecs": [
+      {
+        "name": "symbol",
+        "dataType": "STRING"
+      },
+      {
+        "name": "price",
+        "dataType": "DOUBLE"
+      },
+      {
+        "name": "volume",
+        "dataType": "DOUBLE"
+      }
+    ],
+    "dateTimeFieldSpecs": [
+      {
+        "name": "ts",
+        "dataType": "TIMESTAMP",
+        "format": "1:MILLISECONDS:EPOCH",
+        "granularity": "1:MILLISECONDS"
+      }
+    ]
+  }

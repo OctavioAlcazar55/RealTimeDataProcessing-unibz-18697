@@ -1,0 +1,67 @@
+## Streamlit Trade Updated Prices Dashboard
+## REFERENCE FRPM https://www.youtube.com/watch?v=Km2KDo6tFpQ
+
+## CHECK HOW TO DEAL WITH STORING QUERY -- USE OF from pinotdb import connect LIBRARY
+## CHECK HOW TO DEAL WITH AUTO REFRESH
+## CHECK HOW DATES (AXES AND TICK VALUES) ARE UPDATED IN PLOT VISUALIZATION
+
+import streamlt as st
+import pandas as pd
+from datetime import datetime
+import plotly.express as px
+import time
+
+st.title("Trade Prices Dashboard")
+
+# query part -- MISSING 
+    query = """
+    select count(*) FILTER(WHERE  ts > ago('PT1M')) AS events1Min,
+           count(*) FILTER(WHERE  ts <= ago('PT1M') AND ts > ago('PT2M')) AS events1Min2Min,
+           distinctcount(user) FILTER(WHERE  ts > ago('PT1M')) AS users1Min,
+           distinctcount(user) FILTER(WHERE  ts <= ago('PT1M') AND ts > ago('PT2M')) AS users1Min2Min,
+           distinctcount(domain) FILTER(WHERE  ts > ago('PT1M')) AS domains1Min,
+           distinctcount(domain) FILTER(WHERE  ts <= ago('PT1M') AND ts > ago('PT2M')) AS domains1Min2Min
+    from wikievents 
+    where ts > ago('PT2M')
+    limit 1
+    """
+	
+	STORE QUERY AS DATAFRAME
+	
+# available US companies
+tickers = ("AAPL", "MSFT", "GOOG", "AMZN", "TSLA", "BRK-B", "UNH", "META", "JNJ", "V")
+
+# dropdown menu
+dropdown = st.multiselect("Pick a top-10 US company per market value in 2022 to visualize", tickers)
+
+# date menu - time window -- NOT NEEDED
+start = st.date_input("Start", value = pd.to_datetime("2022-01-01"))
+end = st.date_input("End", value = pd.to_datetime("today"))
+
+# IF NO RELATIVE RETURN IS NEEDED
+if len(dropdown) > 0: # if at least a company is chosen
+	# do query
+	# change following line
+	df = yf.download(dropdown, start, end)["Adj Close"]
+	
+	# line plot
+	st.line_chart(df)
+	
+# IF RELATIVE RETURN
+
+def relativeret(df):
+	rel = df.pct_change()
+	cumret = (1+rel).cumprod() - 1
+	cumret = cumret.fillna(0)
+	return cumret
+	
+if len(dropdown) > 0: # if at least a company is chosen
+	# do query
+	# change following line
+	df = relativeret(yf.download(dropdown, start, end)["Adj Close"]=
+	
+	# header
+	st.header("Returns of {}".format(dropdown))
+	
+	# line plot
+	st.line_chart(df)
