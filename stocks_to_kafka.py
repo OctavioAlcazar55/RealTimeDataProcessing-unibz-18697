@@ -33,7 +33,7 @@ def on_error(ws, error):
 def on_close(ws):
     print("### closed ###")
 
-producer = Producer({'bootstrap.servers': 'localhost:9092'})
+producer = Producer({'bootstrap.servers': 'http://ec2-44-204-8-116.compute-1.amazonaws.com:9092'})
 
 def on_open(ws):
     ws.send('{"type":"subscribe","symbol":"AAPL"}')
