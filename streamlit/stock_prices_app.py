@@ -7,7 +7,7 @@ import time
 
 st.set_page_config(layout="wide")
 
-conn = connect(host='192.168.1.51', port=9000, path='/sql', scheme='http')
+conn = connect(host='ec2-44-204-8-116.compute-1.amazonaws.com', port=9000, path='/sql', scheme='http')
 
 def overview():
     st.header("Overview")
@@ -372,13 +372,14 @@ def relativeret(df):
 query = """
     select *
     from stockevents 
-    LIMIT 10
+    order by ts desc limit 20;
     """
 
 subtract_time = 24*60
 
 curs = conn.cursor()
-curs.execute(query, {"subtract_time": subtract_time})
+#curs.execute(query, {"subtract_time": subtract_time})
+curs.execute(query)
 
 st.header("Trade prices:")
 
