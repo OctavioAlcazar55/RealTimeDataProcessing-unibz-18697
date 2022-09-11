@@ -391,8 +391,8 @@ st.table(df_ts)
 st.table(df_ts_melt)
 
 fig = px.line(df_ts_melt, x='ts', y="value", color='variable', color_discrete_sequence =['blue', 'red', 'green'])
-#fig['layout'].update(margin=dict(l=0,r=0,b=0,t=40), title="Changes/Users/Domains per minute")
-#fig.update_yaxes(range=[0, df_ts["price"].max() * 1.1])
+fig['layout'].update(margin=dict(l=0,r=0,b=0,t=40), title="Updating trades values.")
+fig.update_yaxes(range=[0, df_ts["price"].max() * 1.1])
 
 st.plotly_chart(fig, use_container_width=True)
 
